@@ -1,0 +1,25 @@
+{
+  "name": "nextjs-app",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "build-css": "tailwindcss -i ./styles/tailwind.css -o ./public/css/styles.css"
+  },
+  "dependencies": {
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "next-themes": "latest",
+    "next-auth": "latest",
+    "@heroicons/react": "^2.0.18",
+    "flowbite": "^1.6.5",
+    "flowbite-react": "^0.4.4"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.3.2",
+    "postcss": "^8.4.23",
+    "autoprefixer": "^10.4.14"
+  }
+}

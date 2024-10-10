@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: adminpassword
+      MONGO_INITDB_DATABASE: strapi
+    volumes:
+      - mongo-data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    networks:
+      - app-network
+
+  nextjs-app:
+    build: ./app-next
+    container_name: nextjs-app
+    ports:
+      - "3300:3000"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URI=mongodb://admin:adminpassword@mongo:27017/strapi?authSource=admin
+    volumes:
+      - ./app-next:/usr/src/app
+      - /usr/src/app/node_modules
+      - /usr/src/app/.next
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mongo-data:
+

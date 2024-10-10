@@ -1,0 +1,17 @@
+# Node modules
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Environnement
+.env
+
+# Build
+.next/
+dist/
+
+# Docker
+docker-compose.override.yml
