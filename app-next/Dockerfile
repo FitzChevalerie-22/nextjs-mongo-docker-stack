@@ -13,6 +13,11 @@ RUN npm cache clean --force && npm install
 # Copier le reste des fichiers de l'application
 COPY . .
 
+# Create a non-root user and switch to it
+# RUN useradd -ms /bin/bash appuser
+# RUN chown -R appuser:appuser /usr/src/app
+# USER appuser
+
 # Construire l'application Next.js en production
 RUN npm run build
 

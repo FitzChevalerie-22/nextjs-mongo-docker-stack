@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Définir la variable du chemin du projet
-PROJECT_PATH="/home/florent/docker/nextjs"
+PROJECT_PATH="./"
 
 # Définir florent comme propriétaire de tous les fichiers et dossiers
 sudo chown -R florent:florent "$PROJECT_PATH"

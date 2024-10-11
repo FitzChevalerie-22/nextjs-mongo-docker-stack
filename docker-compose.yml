@@ -12,7 +12,9 @@ services:
       - mongo-data:/data/db
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     networks:
-      - app-network
+      - traefik_default
+    labels:
+      - "traefik.enable=false"
 
   nextjs-app:
     build: ./app-next
@@ -28,11 +30,19 @@ services:
       - /usr/src/app/node_modules
       - /usr/src/app/.next
     networks:
-      - app-network
+      - traefik_default
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.app.rule=Host(`app.armor.meca`)"
+      - "traefik.http.routers.app.entrypoints=web"
+      - "traefik.http.routers.app-secure.entrypoints=websecure"
+      - "traefik.http.routers.app-secure.rule=Host(`app.armor.meca`)"
+      - "traefik.http.routers.app-secure.tls=true"
+      - "traefik.http.routers.app-secure.tls.certresolver=selfSigned"
 
 networks:
-  app-network:
-    driver: bridge
+  traefik_default:
+    external: true
 
 volumes:
   mongo-data:
