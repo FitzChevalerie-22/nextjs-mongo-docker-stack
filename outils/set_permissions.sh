@@ -20,6 +20,7 @@ sudo find "$PROJECT_PATH" -type d -exec chmod 755 {} \;
 sudo find "$PROJECT_PATH" -type f -exec chmod 644 {} \;
 
 # Rendre le script exécutable
-sudo chmod +x push_to_github.sh
+cd outils
+sudo chmod +x *.sh
 
 echo "Permissions appliquées avec succès sur le projet."

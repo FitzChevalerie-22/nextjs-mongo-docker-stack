@@ -1,3 +1,5 @@
+
+
 db = db.getSiblingDB('strapi');
 db.createUser({
   user: "strapiuser",

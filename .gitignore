@@ -7,7 +7,7 @@ logs
 npm-debug.log*
 
 # Environnement
-.env
+# .env
 
 # Build
 .next/
@@ -15,3 +15,6 @@ dist/
 
 # Docker
 docker-compose.override.yml
+
+#  Autres
+app-next-dev/create.sh

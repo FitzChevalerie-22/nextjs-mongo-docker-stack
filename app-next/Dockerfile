@@ -1,3 +1,5 @@
+# nextjs/app-next/Dockerfile
+
 # Utiliser une image Node.js de base
 FROM node:lts
 
@@ -13,11 +15,6 @@ RUN npm cache clean --force && npm install
 # Copier le reste des fichiers de l'application
 COPY . .
 
-# Create a non-root user and switch to it
-# RUN useradd -ms /bin/bash appuser
-# RUN chown -R appuser:appuser /usr/src/app
-# USER appuser
-
 # Construire l'application Next.js en production
 RUN npm run build
 
@@ -25,7 +22,7 @@ RUN npm run build
 RUN ls -la
 
 # Exposer le port Next.js par défaut
-EXPOSE 3000
+EXPOSE 3300
 
 # Démarrer l'application Next.js
 CMD ["npm", "start"]

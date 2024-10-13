@@ -1,0 +1,51 @@
+# nextjs/docker-compose.prod.yml
+
+services:
+  mongo-prod:
+    image: mongo:latest
+    container_name: mongo-prod
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+    volumes:
+      - mongo-data-prod:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    networks:
+      - proxy
+    labels:
+      - "traefik.enable=false"
+
+  nextjs-app-prod:
+    build: ./app-next
+    container_name: nextjs-app-prod
+    ports:
+      - "${PROD_NEXTJS_PORT}:3000"
+    depends_on:
+      - mongo-prod
+    environment:
+      - MONGO_URI=${PROD_MONGO_URI}
+    volumes:
+      - ./app-next/pages:/app/pages
+      - ./app-next/public:/app/public
+      - ./app-next/styles:/app/styles
+      - ./app-next/package.json:/app/package.json
+      - ./app-next/postcss.config.js:/app/postcss.config.js
+      - ./app-next/tailwind.config.js:/app/tailwind.config.js
+    networks:
+      - proxy
+    labels:
+      - "traefik.enable=false"
+      - "traefik.http.routers.app-prod.rule=Host(`${PROD_NEXTJS_DOMAIN}`)"
+      - "traefik.http.routers.app-prod.entrypoints=web"
+      - "traefik.http.routers.app-prod-secure.entrypoints=websecure"
+      - "traefik.http.routers.app-prod-secure.rule=Host(`${PROD_NEXTJS_DOMAIN}`)"
+      - "traefik.http.routers.app-prod-secure.tls=true"
+      - "traefik.http.routers.app-prod-secure.tls.certresolver=selfSigned"
+
+networks:
+  proxy:
+    external: true
+
+volumes:
+  mongo-data-prod:
